@@ -65,7 +65,7 @@ class SingleSpoolTurboshaft(pyc.Cycle):
 
             balance.add_balance('W', val=27.0, units='lbm/s', eq_units=None, rhs_name='nozz_PR_target')
             self.connect('balance.W', 'inlet.Fl_I:stat:W')
-            self.connect('nozz.PR', 'balance.lhs:W')
+            self.connect('nozz.staticPs.MN', 'balance.lhs:W')
 
             balance.add_balance('FAR', eq_units='degR', lower=1e-4, val=.017, rhs_name='T4_target')
             self.connect('balance.FAR', 'burner.Fl_I:FAR')
@@ -172,6 +172,7 @@ class MPSingleSpool(pyc.MPCycle):
         self.set_input_defaults('DESIGN.comp.MN', 0.20)
         self.set_input_defaults('DESIGN.burner.MN', 0.20)
         self.set_input_defaults('DESIGN.turb.MN', 0.4)
+        self.set_input_defaults('DESIGN.nozz.PR', 1.2)
 
         self.pyc_add_cycle_param('burner.dPqP', .03)
         self.pyc_add_cycle_param('nozz.Cv', 0.99)
@@ -207,12 +208,14 @@ if __name__ == "__main__":
 
     prob.setup()
 
+    om.view_connections(prob, outfile='kk.html')
     #Define the design point
     prob.set_val('DESIGN.fc.alt', 0.0, units='ft')
     prob.set_val('DESIGN.fc.MN', 0.000001)
     prob.set_val('DESIGN.balance.T4_target', 2370.0, units='degR')
     prob.set_val('DESIGN.balance.pwr_target', 4000.0, units='hp')
-    prob.set_val('DESIGN.balance.nozz_PR_target', 1.2)
+    # prob.set_val('DESIGN.balance.nozz_PR_target', 1.2)
+    prob.set_val('DESIGN.balance.nozz_PR_target', 0.4)
     prob.set_val('DESIGN.comp.PR', 13.5)
     prob.set_val('DESIGN.comp.eff', 0.83)
     prob.set_val('DESIGN.turb.eff', 0.86)
