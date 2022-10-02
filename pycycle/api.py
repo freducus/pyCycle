@@ -12,6 +12,7 @@ from pycycle.elements.duct import Duct
 from pycycle.elements.compressor import Compressor
 from pycycle.elements.combustor import Combustor
 from pycycle.elements.turbine import Turbine
+from pycycle.elements.turbine_WK import Turbine as Turbine_ITP
 from pycycle.elements.nozzle import Nozzle
 from pycycle.elements.shaft import Shaft
 from pycycle.elements.performance import Performance
